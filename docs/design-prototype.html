@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘锴 Lucas | AI 创业者 & 持续分享者</title>
+    <style>
+        :root {
+            /* Color Palette - Bright Modern Tech */
+            --bg-color: #F5F7FA;
+            --text-primary: #2E3A59; /* Changed from #1D1D1F to Dark Blue-Grey */
+            --text-secondary: #64748B; /* Changed from #86868B to Blue-Grey */
+            --accent-color: #007AFF;
+            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-border: rgba(255, 255, 255, 0.8);
+            --glass-blur: 20px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background Animation */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite alternate;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: #E0E7FF; /* Light Indigo */
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: #D1FAE5; /* Light Emerald */
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 300px;
+            height: 300px;
+            background: #FCE7F3; /* Light Pink */
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.1); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(245, 247, 250, 0.8);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            margin-left: 30px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh; /* Changed from height to min-height to avoid overflow */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 10% 60px; /* Added top padding for nav */
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 40px; /* Add gap between text and image */
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 300px; /* Prevent text from being too squashed */
+        }
+
+        .hero-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-width: 300px; /* Prevent image container from being too squashed */
+        }
+
+        .hero-image {
+            width: 100%; /* Make responsive */
+            max-width: 320px; /* Limit max size */
+            height: auto; /* Maintain aspect ratio */
+            aspect-ratio: 1 / 1; /* Ensure square aspect ratio */
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%; /* Show more shoulder */
+            border: 8px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            /* animation: float-slow 6s ease-in-out infinite; Removed for steadiness */
+        }
+
+        .hero h1 {
+            font-size: 4rem; /* Reduced from 5rem for better 2-line fit */
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%); /* Bright Blue Gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1.5px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #007AFF 0%, #0056b3 100%); /* Blue gradient button */
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.3); /* Blue shadow */
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Sections Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        /* Glass Cards Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 30px;
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .card-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--accent-color);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .arrow-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-primary);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .arrow-icon {
+            transform: translateX(5px);
+            fill: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            margin-top: 20px;
+        }
+
+        /* Simple Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav>
+        <div class="logo">AI感知体·Lucas</div>
+        <div class="nav-links">
+            <a href="#home">首页</a>
+            <a href="#explore">知识探索</a>
+            <a href="#practice">垂直实战</a>
+            <a href="#about">关于我</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="fade-in-up">AI 时代的<br>感知者与践行者</h1>
+            <p class="fade-in-up delay-1">我是刘锴。20年产品经验的AI创业者。<br>持续汲取全球前沿信息，为你过滤噪音，提炼智慧。</p>
+            <a href="#explore" class="cta-button fade-in-up delay-2">开始探索</a>
+        </div>
+        <div class="hero-image-container fade-in-up delay-3">
+            <img src="profile.jpeg" alt="刘锴 Lucas" class="hero-image">
+        </div>
+    </section>
+
+    <section class="container" id="explore">
+        <div class="section-header">
+            <h2>知识探索</h2>
+            <p>基于抖音 @感知体·Lucas 的深度书籍解读</p>
+        </div>
+        <div class="grid">
+            <!-- Card 1 -->
+            <div class="card">
+                <span class="card-tag">未来科技</span>
+                <h3>AI 2041：预见未来</h3>
+                <p>李开复博士与陈楸帆合著，通过10个故事预演20年后AI如何重塑世界。</p>
+                <div class="card-footer">
+                    <span>12.5w 播放</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"/></svg>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="card">
+                <span class="card-tag">商业财富</span>
+                <h3>纳瓦尔宝典</h3>
+                <p>硅谷知名投资人纳瓦尔的智慧集结，关于财富与幸福的底层逻辑。</p>
+                <div class="card-footer">
+                    <span>8.9w 播放</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"/></svg>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="card">
+                <span class="card-tag">认知思维</span>
+                <h3>思考，快与慢</h3>
+                <p>丹尼尔·卡尼曼经典之作，揭示人类大脑的两个系统及其决策陷阱。</p>
+                <div class="card-footer">
+                    <span>15.2w 播放</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"/></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="practice">
+        <div class="section-header">
+            <h2>垂直实战</h2>
+            <p>小红书 @AI职场教练 Lucas - 聚焦 HR 场景应用</p>
+        </div>
+        <div class="grid">
+            <div class="card" style="grid-column: span 2;">
+                <span class="card-tag">解决方案</span>
+                <h3>AI 驱动的招聘流程自动化</h3>
+                <p>利用 Agent 自动筛选简历、生成面试题库，并进行初步意向沟通。帮助企业提升招聘效率 300%。</p>
+                <div class="card-footer">
+                    <span>查看完整案例</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"/></svg>
+                </div>
+            </div>
+            <div class="card">
+                <span class="card-tag">学员评价</span>
+                <h3>"这不仅是工具课，更是思维课"</h3>
+                <p>Lucas 老师的课程让我明白，AI 不是替代 HR，而是让 HR 真正回归'人'的工作。</p>
+                <div class="card-footer">
+                    <span>- 某互联网大厂 HRD</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <h3>感知体·Lucas</h3>
+        <p>&copy; 2026 Lucas Liu. All rights reserved.</p>
+        <p>Stay Hungry, Stay Foolish.</p>
+    </footer>
+
+</body>
+</html>
+            <p>小红书 @AI职场教练 Lucas - 聚焦 HR 场景应用</p>
+        </div>
+        <div class="grid">
+            <div class="card" style="grid-column: span 2;">
+                <span class="card-tag">解决方案</span>
+                <h3>AI 驱动的招聘流程自动化</h3>
+                <p>利用 Agent 自动筛选简历、生成面试题库，并进行初步意向沟通。帮助企业提升招聘效率 300%。</p>
+                <div class="card-footer">
+                    <span>查看完整案例</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"/></svg>
+                </div>
+            </div>
+            <div class="card">
+                <span class="card-tag">学员评价</span>
+                <h3>"这不仅是工具课，更是思维课"</h3>
+                <p>Lucas 老师的课程让我明白，AI 不是替代 HR，而是让 HR 真正回归'人'的工作。</p>
+                <div class="card-footer">
+                    <span>- 某互联网大厂 HRD</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <h3>感知体·Lucas</h3>
+        <p>&copy; 2026 Lucas Liu. All rights reserved.</p>
+        <p>Stay Hungry, Stay Foolish.</p>
+    </footer>
+
+</body>
+</html>
